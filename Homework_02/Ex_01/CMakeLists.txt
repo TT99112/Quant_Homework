@@ -1,0 +1,1 @@
+add_executable(Hwk_02_Ex_01_main main.cpp Options06.cpp Options06.h BinModel02.cpp BinModel02.h)

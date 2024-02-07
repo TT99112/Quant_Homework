@@ -1,0 +1,1 @@
+add_executable(Hwk_01_Ex_04_main main.cpp)
