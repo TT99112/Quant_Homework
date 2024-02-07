@@ -23,39 +23,75 @@ using namespace std;
 //    return Price[0];
 //}
 
+//double EurOption::PriceByCRR(BinModel Model, BinLattice<double>& DeltaTree, BinLattice<double>& CashTree) {
+//    double q = Model.RiskNeutralProb();
+//    int N = GetN();
+//    DeltaTree.SetN(N);
+//    CashTree.SetN(N);
+//    vector<double> Price(N + 1);
+//
+//    BinLattice<double> PriceTree;
+//
+//    // Compute option prices at maturity
+//    for (int i = 0; i <= N; i++) {
+//        Price[i] = Payoff(Model.S(N, i));
+//        PriceTree.SetNode(N, i, Price[i]);
+//    }
+//
+//    for (int n = N - 1; n >= 0; n--) {
+//        for (int i = 0; i <= n; i++) {
+//            double ContVal = (q * Price[i + 1] + (1 - q) * Price[i])
+//                             / (1 + Model.GetR());
+//            PriceTree.SetNode(n, i, ContVal);
+//        }
+//        for (int i = 0; i <= n; i++) {
+//
+//            double Delta = (PriceTree.GetNode(n+1,i+1) - PriceTree.GetNode(n+1,i))/
+//                    (Model.S(n + 1, i+1) - Model.S(n + 1, i));
+//            DeltaTree.SetNode(n, i, Delta);
+//
+//            double Cash = (PriceTree.GetNode(n+1,i) - Delta * Model.S(n + 1, i)) / (1 + Model.GetR());
+//            CashTree.SetNode(n, i, Cash);
+//
+//        }
+//    }
+//    return Price[0];
+//}
+
 double EurOption::PriceByCRR(BinModel Model, BinLattice<double>& DeltaTree, BinLattice<double>& CashTree) {
     double q = Model.RiskNeutralProb();
     int N = GetN();
     DeltaTree.SetN(N);
     CashTree.SetN(N);
-    vector<double> Price(N + 1);
-
     BinLattice<double> PriceTree;
+    PriceTree.SetN(N);
 
-    // Compute option prices at maturity
+    // Compute option prices at maturity and store them in PriceTree
     for (int i = 0; i <= N; i++) {
-        Price[i] = Payoff(Model.S(N, i));
-        PriceTree.SetNode(N, i, Price[i]);
+        PriceTree.SetNode(N, i, Payoff(Model.S(N, i)));
     }
-
     for (int n = N - 1; n >= 0; n--) {
         for (int i = 0; i <= n; i++) {
-            double ContVal = (q * Price[i + 1] + (1 - q) * Price[i])
-                             / (1 + Model.GetR());
+            double ContVal = (q * PriceTree.GetNode(n + 1, i + 1) + (1 - q) * PriceTree.GetNode(n + 1, i)) / (1 + Model.GetR());
             PriceTree.SetNode(n, i, ContVal);
         }
+    }
+
+    // Backward induction to compute replicating strategy
+    for (int n = N - 1; n >= 0; n--) {
+        // Compute deltas and update option prices
         for (int i = 0; i <= n; i++) {
-
-            double Delta = (PriceTree.GetNode(n+1,i+1) - PriceTree.GetNode(n+1,i))/
-                    (Model.S(n + 1, i+1) - Model.S(n + 1, i));
+            double Delta;
+            if (n == N-1 && PriceTree.GetNode(n+1, i) > 0) {
+                DeltaTree.SetNode(n+1, i, 1.0);
+            }
+            Delta = (PriceTree.GetNode(n + 1, i + 1) - PriceTree.GetNode(n + 1, i)) / (Model.S(n + 1, i + 1) - Model.S(n + 1, i));
             DeltaTree.SetNode(n, i, Delta);
-
-            double Cash = (PriceTree.GetNode(n+1,i) - Delta * Model.S(n + 1, i)) / (1 + Model.GetR());
+            double Cash = (PriceTree.GetNode(n + 1, i) - DeltaTree.GetNode(n, i) * Model.S(n + 1, i)) / (1 + Model.GetR());
             CashTree.SetNode(n, i, Cash);
-
         }
     }
-    return Price[0];
+    return PriceTree.GetNode(0, 0);
 }
 
 double AmOption::PriceBySnell(BinModel Model,

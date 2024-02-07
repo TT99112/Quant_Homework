@@ -41,7 +41,7 @@ int main() {
     if (Model.GetInputData() == 1)
         return 1;
 
-    Call Option;
+    Put Option;
     Option.GetInputData();
 
     BinLattice<double> MoneyMarketTree;
@@ -50,8 +50,9 @@ int main() {
     double optionPrice = Option.PriceByCRR(Model, MoneyMarketTree, StockPositionTree);
 
     // Displaying the replicating strategy
-    StockPositionTree.Display();
+
     MoneyMarketTree.Display();
+    StockPositionTree.Display();
 
 
     cout << "European call price: " << optionPrice << endl;
