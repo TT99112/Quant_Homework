@@ -1,7 +1,3 @@
-//
-// Created by Tamour on 06/02/2024.
-//
-
 #include "Options09.h"
 #include "BinModel02.h"
 #include "BinLattice02.h"
@@ -9,19 +5,54 @@
 #include <cmath>
 using namespace std;
 
-double EurOption::PriceByCRR(BinModel Model) {
+//double EurOption::PriceByCRR(BinModel Model) {
+//    double q = Model.RiskNeutralProb();
+//    int N = GetN();
+//    vector<double> Price(N + 1);
+//    for (int i = 0; i <= N; i++) {
+//        Price[i] = Payoff(Model.S(N, i));
+//    }
+//    for (int n = N - 1; n >= 0; n--)
+//    {
+//        for (int i = 0; i <= n; i++)
+//        {
+//            Price[i] = (q * Price[i + 1] + (1 - q) * Price[i])
+//                    / (1 + Model.GetR());
+//        }
+//    }
+//    return Price[0];
+//}
+
+double EurOption::PriceByCRR(BinModel Model, BinLattice<double>& DeltaTree, BinLattice<double>& CashTree) {
     double q = Model.RiskNeutralProb();
     int N = GetN();
+    DeltaTree.SetN(N);
+    CashTree.SetN(N);
     vector<double> Price(N + 1);
+
+    BinLattice<double> PriceTree;
+
+    // Compute option prices at maturity
     for (int i = 0; i <= N; i++) {
         Price[i] = Payoff(Model.S(N, i));
+        PriceTree.SetNode(N, i, Price[i]);
     }
-    for (int n = N - 1; n >= 0; n--)
-    {
-        for (int i = 0; i <= n; i++)
-        {
-            Price[i] = (q * Price[i + 1] + (1 - q) * Price[i])
-                    / (1 + Model.GetR());
+
+    for (int n = N - 1; n >= 0; n--) {
+        for (int i = 0; i <= n; i++) {
+            double ContVal = (q * Price[i + 1] + (1 - q) * Price[i])
+                             / (1 + Model.GetR());
+            PriceTree.SetNode(n, i, ContVal);
+        }
+        for (int i = 0; i <= n; i++) {
+
+            double Delta = (PriceTree.GetNode(n+1,i+1) - PriceTree.GetNode(n+1,i))/
+                    (Model.S(n + 1, i+1) - Model.S(n + 1, i));
+            DeltaTree.SetNode(n, i, Delta);
+
+            double Cash = (PriceTree.GetNode(n+1,i) - Delta * Model.S(n + 1, i)) / (1 + Model.GetR());
+            CashTree.SetNode(n, i, Cash);
+
         }
     }
     return Price[0];
@@ -51,10 +82,6 @@ double AmOption::PriceBySnell(BinModel Model,
             PriceTree.SetNode(n, i, Payoff(Model.S(n, i)));
 
             StoppingTree.SetNode(n, i, 1);
-
-            cout << "Node (" << n << ", " << i << "):" << endl;
-            cout << "  ContVal: " << ContVal << endl;
-            cout << "  Intrinsic Value: " << PriceTree.GetNode(n, i) << endl;
 
             double epsilon = 0.01;
             // If ContVal is greater than PriceTree.GetNode(n, i) with precision up to 2 decimal points

@@ -1,7 +1,3 @@
-//
-// Created by Tamour on 06/02/2024.
-//
-
 #ifndef QUANT_HOMEWORK_OPTIONS09_H
 #define QUANT_HOMEWORK_OPTIONS09_H
 
@@ -20,11 +16,9 @@ public:
 
 class EurOption : public virtual Option {
 public:
-//    double PriceByCRR(BinModel Model,
-//                      BinLattice<double> &StockLattice,
-//                      BinLattice<double> &CashLattice);
 
-    double PriceByCRR(BinModel Model);
+
+    double PriceByCRR(BinModel Model, BinLattice<double> &DeltaTree, BinLattice<double> &CashPositionTree);
 };
 
 class AmOption : public virtual Option {

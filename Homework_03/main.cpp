@@ -18,23 +18,43 @@
 using namespace std;
 
 int main() {
+//    BinModel Model;
+//    if (Model.GetInputData() == 1)
+//        return 1;
+
+//    Put Option;
+//    Option.GetInputData();
+//
+//    BinLattice<double> PriceTree;
+//    BinLattice<bool> StoppingTree;
+//
+//    Option.PriceBySnell(Model, PriceTree, StoppingTree);
+//
+//    cout << "American put prices: " << endl << endl;
+//    PriceTree.Display();
+//
+//    cout << "American put exercise policy: " << endl << endl;
+//    StoppingTree.Display();
+
+    //Exercise 3-1
     BinModel Model;
     if (Model.GetInputData() == 1)
         return 1;
 
-    Put Option;
+    Call Option;
     Option.GetInputData();
 
-    BinLattice<double> PriceTree;
-    BinLattice<bool> StoppingTree;
+    BinLattice<double> MoneyMarketTree;
+    BinLattice<double> StockPositionTree;
 
-    Option.PriceBySnell(Model, PriceTree, StoppingTree);
+    double optionPrice = Option.PriceByCRR(Model, MoneyMarketTree, StockPositionTree);
 
-    cout << "American put prices: " << endl << endl;
-    PriceTree.Display();
+    // Displaying the replicating strategy
+    StockPositionTree.Display();
+    MoneyMarketTree.Display();
 
-    cout << "American put exercise policy: " << endl << endl;
-    StoppingTree.Display();
+
+    cout << "European call price: " << optionPrice << endl;
 
     return 0;
 }
