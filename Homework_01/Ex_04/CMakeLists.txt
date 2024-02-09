@@ -1,1 +1,1 @@
-add_executable(Hwk_01_Ex_04_main main.cpp)
+add_executable(Hwk_01_Ex_04_main main.cpp BinModel01.cpp BinModel01.h)

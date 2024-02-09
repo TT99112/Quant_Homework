@@ -1,0 +1,1 @@
+add_executable(Hwk_03_Ex_02_main main.cpp main.cpp BinLattice02.h Options09.cpp Options09.h BinModel02.cpp BinModel02.h)

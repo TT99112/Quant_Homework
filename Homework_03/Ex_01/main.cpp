@@ -21,8 +21,8 @@ int main() {
 //    BinModel Model;
 //    if (Model.GetInputData() == 1)
 //        return 1;
-
-//    Put Option;
+//
+//    Call Option;
 //    Option.GetInputData();
 //
 //    BinLattice<double> PriceTree;
@@ -36,7 +36,7 @@ int main() {
 //    cout << "American put exercise policy: " << endl << endl;
 //    StoppingTree.Display();
 
-    //Exercise 3-1
+//    Exercise 3-1
     BinModel Model;
     if (Model.GetInputData() == 1)
         return 1;

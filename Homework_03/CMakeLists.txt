@@ -1,1 +1,2 @@
-add_executable(Hwk_03_main main.cpp BinLattice02.h Options09.cpp Options09.h BinModel02.cpp BinModel02.h)
+add_subdirectory(Ex_01)
+add_subdirectory(Ex_02)
