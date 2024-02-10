@@ -18,44 +18,69 @@
 using namespace std;
 
 int main() {
-//    BinModel Model;
-//    if (Model.GetInputData() == 1)
-//        return 1;
-//
-//    Call Option;
-//    Option.GetInputData();
-//
-//    BinLattice<double> PriceTree;
-//    BinLattice<bool> StoppingTree;
-//
-//    Option.PriceBySnell(Model, PriceTree, StoppingTree);
-//
-//    cout << "American put prices: " << endl << endl;
-//    PriceTree.Display();
-//
-//    cout << "American put exercise policy: " << endl << endl;
-//    StoppingTree.Display();
-
-//    Exercise 3-1
     BinModel Model;
     if (Model.GetInputData() == 1)
         return 1;
 
-    Put Option;
-    Option.GetInputData();
+    Call Call_Option;
+    Call_Option.GetInputData();
 
-    BinLattice<double> MoneyMarketTree;
-    BinLattice<double> StockPositionTree;
+    Put Put_Option;
+    Put_Option.GetInputData();
 
-    double optionPrice = Option.PriceByCRR(Model, MoneyMarketTree, StockPositionTree);
+    BinLattice<double> callOptionPriceTree;
+    BinLattice<bool> callOptionStoppingTree;
+    BinLattice<double> callOptionDeltaTree;
+    BinLattice<double> callOptionCashTree;
 
-    // Displaying the replicating strategy
+    BinLattice<double> putOptionPriceTree;
+    BinLattice<bool> putOptionStoppingTree;
+    BinLattice<double> putOptionDeltaTree;
+    BinLattice<double> putOptionCashTree;
 
-    MoneyMarketTree.Display();
-    StockPositionTree.Display();
+    double americanCallOptionPrice = Call_Option.PriceBySnell(Model, callOptionPriceTree, callOptionStoppingTree);
+    double americanPutOptionPrice = Put_Option.PriceBySnell(Model, putOptionPriceTree, putOptionStoppingTree);
 
 
-    cout << "European call price: " << optionPrice << endl;
+
+    double europeanCallOptionPrice = Call_Option.PriceByCRR(Model, callOptionDeltaTree, callOptionCashTree);
+    double europeanPutOptionPrice = Put_Option.PriceByCRR(Model, putOptionDeltaTree, putOptionCashTree);
+
+    cout << "American Call prices: " << endl << endl;
+    callOptionPriceTree.Display();
+
+    cout << "American Call exercise policy: " << endl << endl;
+    callOptionStoppingTree.Display();
+
+    cout << "American Call Option price: " << americanCallOptionPrice << endl;
+
+
+    cout << "American Put prices: " << endl << endl;
+    putOptionPriceTree.Display();
+
+    cout << "American Put exercise policy: " << endl << endl;
+    putOptionStoppingTree.Display();
+
+    cout << "American Put Option price: " << americanPutOptionPrice << endl;
+
+
+    cout << "European Call Option Delta Tree: " << endl << endl;
+    callOptionDeltaTree.Display();
+
+    cout << "European Call Option Cash Tree: " << endl << endl;
+    callOptionCashTree.Display();
+
+    cout << "European Call price: " << europeanCallOptionPrice << endl;
+
+
+
+    cout << "European Put Option Delta Tree: " << endl << endl;
+    putOptionDeltaTree.Display();
+
+    cout << "European Put Option Cash Tree: " << endl << endl;
+    putOptionCashTree.Display();
+
+    cout << "European Put price: " << europeanPutOptionPrice << endl;
 
     return 0;
 }

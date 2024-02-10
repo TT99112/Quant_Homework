@@ -14,11 +14,22 @@ private:
     double D;
     double R;
 
+    double sigma;
+    double r;
+    double dt;
+
 public:
     double RiskNeutralProb();
     double S(int n, int i);
     int GetInputData();
     double GetR();
+
+    double getR();
+    void SetDt(double dt_) { dt = dt_; }
+
+    double GetS0();
+
+    double GetSigma();
 };
 
 

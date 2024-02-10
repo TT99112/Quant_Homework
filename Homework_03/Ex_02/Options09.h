@@ -16,8 +16,6 @@ public:
 
 class EurOption : public virtual Option {
 public:
-
-
     double PriceByCRR(BinModel Model, BinLattice<double> &DeltaTree, BinLattice<double> &CashPositionTree);
 };
 
