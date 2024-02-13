@@ -77,19 +77,22 @@ double EurOption::PriceByCRR(BinModel Model, BinLattice<double>& DeltaTree, BinL
         }
     }
 
-    for (int n = N - 1; n >= 0; n--) {
-        // Compute deltas and update option prices
+    for (int n = N; n >= 0; n--) {
         for (int i = 0; i <= n; i++) {
-            double Delta;
-            if (n == N-1 && PriceTree.GetNode(n+1, i) > 0) {
-                DeltaTree.SetNode(n+1, i, 1.0);
+            if (n < N) {
+                double Delta;
+                Delta = (PriceTree.GetNode(n + 1, i + 1) - PriceTree.GetNode(n + 1, i)) / (Model.S(n + 1, i + 1) - Model.S(n + 1, i));
+                DeltaTree.SetNode(n, i, Delta);
+                double Cash = (PriceTree.GetNode(n + 1, i) - DeltaTree.GetNode(n, i) * Model.S(n + 1, i)) / (1 + Model.GetR());
+                CashTree.SetNode(n, i, Cash);
+            } else {
+                if (PriceTree.GetNode(n, i) > 0) {
+                    DeltaTree.SetNode(n, i, 1.0);
+                }
             }
-            Delta = (PriceTree.GetNode(n + 1, i + 1) - PriceTree.GetNode(n + 1, i)) / (Model.S(n + 1, i + 1) - Model.S(n + 1, i));
-            DeltaTree.SetNode(n, i, Delta);
-            double Cash = (PriceTree.GetNode(n + 1, i) - DeltaTree.GetNode(n, i) * Model.S(n + 1, i)) / (1 + Model.GetR());
-            CashTree.SetNode(n, i, Cash);
         }
     }
+    PriceTree.Display();
     return PriceTree.GetNode(0, 0);
 }
 
