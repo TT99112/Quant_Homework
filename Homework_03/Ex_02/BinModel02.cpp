@@ -22,9 +22,6 @@ int BinModel::GetInputData()
     // entering data
     cout << "Enter S0: ";
     cin >> S0;
-
-    //
-
     cout << "Enter U: ";
     cin >> U;
     cout << "Enter D: ";
@@ -33,11 +30,29 @@ int BinModel::GetInputData()
     cin >> R;
     cout << endl;
 
-    /*
+//S0=100
+//sigma=2
+//r=0.03
+//dt = 1
+
+/*
+    cout << "Enter r: ";
+    cin >> r;
+    cout << "Enter sigma: ";
+    cin >> sigma;
+    cout << "Enter dt: ";
+    cin >> dt;
+    cout << endl;
+
+
     U = exp((r + 0.5*sigma*sigma ))*dt + sigma * sqrt(dt) - 1.0;
     D = exp((r + 0.5*sigma*sigma ))*dt - sigma * sqrt(dt) - 1.0;
     R = exp(r*dt) - 1.0;
+    cout << U << endl;
+    cout << D << endl;
+    cout << R << endl;
 */
+
 
     // making sure that 0 < S0, -1 < D < U, -1 < R
     if (S0 <= 0.0 || U <= -1.0 || D <= -1.0 || U <= D || R <= -1.0)
