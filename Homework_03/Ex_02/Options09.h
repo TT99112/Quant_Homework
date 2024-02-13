@@ -48,5 +48,52 @@ public:
     double Payoff(double z);
 };
 
+class KO_Call : public EurOption, public AmOption {
+private:
+    double K; // strike price
+    double Barrier; // barrier price
+
+public:
+    void SetK(double K_) { K = K_; }
+    void SetBarrier(double Barrier_) { Barrier = Barrier_; }
+    int GetInputData();
+    double Payoff(double z);
+};
+
+class KI_Call : public EurOption, public AmOption {
+private:
+    double K; // strike price
+    double Barrier; // barrier price
+
+public:
+    void SetK(double K_) { K = K_; }
+    void SetBarrier(double Barrier_) { Barrier = Barrier_; }
+    int GetInputData();
+    double Payoff(double z);
+};
+
+class KO_Put : public EurOption, public AmOption {
+private:
+    double K; // strike price
+    double Barrier; // barrier price
+
+public:
+    void SetK(double K_) { K = K_; }
+    void SetBarrier(double Barrier_) { Barrier = Barrier_; }
+    int GetInputData();
+    double Payoff(double z);
+};
+
+class KI_Put : public EurOption, public AmOption {
+private:
+    double K; // strike price
+    double Barrier; // barrier price
+
+public:
+    void SetK(double K_) { K = K_; }
+    void SetBarrier(double Barrier_) { Barrier = Barrier_; }
+    int GetInputData();
+    double Payoff(double z);
+};
 
 #endif //QUANT_HOMEWORK_OPTIONS09_H
