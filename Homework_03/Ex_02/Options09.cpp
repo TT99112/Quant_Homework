@@ -170,11 +170,3 @@ double Put::Payoff(double z) {
         return K - z;
     return 0.0;
 }
-
-int KnockOption::GetInputData() {
-    Option::GetInputData();
-    std::cout << "Enter barrier level: ";
-    std::cin >> barrier;
-    std::cout << std::endl;
-    return 0;
-}
