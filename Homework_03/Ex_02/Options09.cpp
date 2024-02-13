@@ -185,16 +185,40 @@ int KO_Call::GetInputData() {
     return 0;
 }
 
-double KO_Call::Payoff(double z) {
-    if (z > Barrier) // knocked-out
-        return 0.0;
-    if (z > K) // in-the-money
-        return z - K;
-    return 0.0; // out-of-the-money
-}
+
 
 int KO_Put::GetInputData() {
     cout << "Enter knock-out put option data: " << endl;
+    int N;
+    cout << "Enter steps to expiry N: ";
+    cin >> N;
+    SetN(N);
+    cout << "Enter strike price K: ";
+    cin >> K;
+    cout << "Enter barrier price: ";
+    cin >> Barrier;
+    cout << endl;
+    return 0;
+}
+
+
+
+int KI_Call::GetInputData() {
+    cout << "Enter knock-in call option data: " << endl;
+    int N;
+    cout << "Enter steps to expiry N: ";
+    cin >> N;
+    SetN(N);
+    cout << "Enter strike price K: ";
+    cin >> K;
+    cout << "Enter barrier price: ";
+    cin >> Barrier;
+    cout << endl;
+    return 0;
+}
+
+int KI_Put::GetInputData() {
+    cout << "Enter knock-in put option data: " << endl;
     int N;
     cout << "Enter steps to expiry N: ";
     cin >> N;
@@ -215,18 +239,12 @@ double KO_Put::Payoff(double z) {
     return 0.0; // out-of-the-money
 }
 
-int KI_Call::GetInputData() {
-    cout << "Enter knock-in call option data: " << endl;
-    int N;
-    cout << "Enter steps to expiry N: ";
-    cin >> N;
-    SetN(N);
-    cout << "Enter strike price K: ";
-    cin >> K;
-    cout << "Enter barrier price: ";
-    cin >> Barrier;
-    cout << endl;
-    return 0;
+double KO_Call::Payoff(double z) {
+    if (z > Barrier) // knocked-out
+        return 0.0;
+    if (z > K) // in-the-money
+        return z - K;
+    return 0.0; // out-of-the-money
 }
 
 double KI_Call::Payoff(double z) {
@@ -235,19 +253,6 @@ double KI_Call::Payoff(double z) {
     return 0.0; // out-of-the-money
 }
 
-int KI_Put::GetInputData() {
-    cout << "Enter knock-in put option data: " << endl;
-    int N;
-    cout << "Enter steps to expiry N: ";
-    cin >> N;
-    SetN(N);
-    cout << "Enter strike price K: ";
-    cin >> K;
-    cout << "Enter barrier price: ";
-    cin >> Barrier;
-    cout << endl;
-    return 0;
-}
 
 double KI_Put::Payoff(double z) {
     if (z < Barrier) // knocked-in
