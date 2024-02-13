@@ -29,69 +29,57 @@ public:
 
 class Call : public EurOption, public AmOption {
 private:
-    double K; // strike price
+    double K;
 public:
-    void SetK(double K_) {
-        K=K_;
-    }
     int GetInputData();
     double Payoff(double z);
 };
 
 class Put : public EurOption, public AmOption {
 private:
-    double K; // strike price
+    double K;
 
 public:
-    void SetK(double K_) {K=K_;}
     int GetInputData();
     double Payoff(double z);
 };
 
 class KO_Call : public EurOption, public AmOption {
 private:
-    double K; // strike price
-    double Barrier; // barrier price
+    double K;
+    double Barrier;
 
 public:
-    void SetK(double K_) { K = K_; }
-    void SetBarrier(double Barrier_) { Barrier = Barrier_; }
     int GetInputData();
     double Payoff(double z);
 };
 
 class KI_Call : public EurOption, public AmOption {
 private:
-    double K; // strike price
-    double Barrier; // barrier price
+    double K;
+    double Barrier;
 
 public:
-    void SetK(double K_) { K = K_; }
-    void SetBarrier(double Barrier_) { Barrier = Barrier_; }
     int GetInputData();
     double Payoff(double z);
 };
 
 class KO_Put : public EurOption, public AmOption {
 private:
-    double K; // strike price
-    double Barrier; // barrier price
+    double K;e
+    double Barrier;
 
 public:
-    void SetK(double K_) { K = K_; }
-    void SetBarrier(double Barrier_) { Barrier = Barrier_; }
     int GetInputData();
     double Payoff(double z);
 };
 
 class KI_Put : public EurOption, public AmOption {
 private:
-    double K; // strike price
-    double Barrier; // barrier price
+    double K;
+    double Barrier;
 
 public:
-    void SetK(double K_) { K = K_; }
-    void SetBarrier(double Barrier_) { Barrier = Barrier_; }
     int GetInputData();
     double Payoff(double z);
 };
