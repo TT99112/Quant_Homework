@@ -86,12 +86,6 @@ int main() {
     if (Model.GetInputData() == 1)
         return 1;
 
-    Call Call_Option;
-    Call_Option.GetInputData();
-
-    Put Put_Option;
-    Put_Option.GetInputData();
-
     BinLattice<double> callOptionPriceTree;
     BinLattice<bool> callOptionStoppingTree;
     BinLattice<double> callOptionDeltaTree;
