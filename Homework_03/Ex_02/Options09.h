@@ -66,7 +66,7 @@ public:
 
 class KO_Put : public EurOption, public AmOption {
 private:
-    double K;e
+    double K;
     double Barrier;
 
 public:
