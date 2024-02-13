@@ -92,7 +92,6 @@ double EurOption::PriceByCRR(BinModel Model, BinLattice<double>& DeltaTree, BinL
             }
         }
     }
-    PriceTree.Display();
     return PriceTree.GetNode(0, 0);
 }
 
