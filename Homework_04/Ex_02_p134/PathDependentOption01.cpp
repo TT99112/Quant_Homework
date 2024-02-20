@@ -26,11 +26,3 @@ double ArithAsianCall::Payoff(SamplePath& S) {
         return 0.0;
     return Ave - K;
 }
-
-double EuroCall::Payoff(SamplePath& S) {
-    return max(0.0, S.back() - K); // Payoff at expiry
-}
-
-double EuroPut::Payoff(SamplePath& S) {
-    return max(0.0, K - S.back()); // Payoff at expiry
-}

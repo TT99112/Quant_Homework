@@ -27,10 +27,14 @@ double ArithAsianCall::Payoff(SamplePath& S) {
     return Ave - K;
 }
 
-double EuroCall::Payoff(SamplePath& S) {
-    return max(0.0, S.back() - K); // Payoff at expiry
+// Implement the Payoff function for EuropeanCall
+double EuropeanCall::Payoff(SamplePath& S) {
+    double ST = S.back(); // Get the last stock price from the sample path
+    return std::max(0.0, ST - K); // Payoff for a call option
 }
 
-double EuroPut::Payoff(SamplePath& S) {
-    return max(0.0, K - S.back()); // Payoff at expiry
+// Implement the Payoff function for EuropeanPut
+double EuropeanPut::Payoff(SamplePath& S) {
+    double ST = S.back(); // Get the last stock price from the sample path
+    return std::max(0.0, K - ST); // Payoff for a put option
 }

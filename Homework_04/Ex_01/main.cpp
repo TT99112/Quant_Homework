@@ -22,11 +22,11 @@ int main() {
     cout << "Asian Call Price = " << ArithAsianCallOption.PriceByMC(Model, N) << endl;
 
     // European Call option
-    EuroCall EuroCallOption(T, K, m);
+    EuropeanCall EuroCallOption(T, K, m);
     cout << "European Call Price = " << EuroCallOption.PriceByMC(Model, N) << endl;
 
     // European Put option
-    EuroPut EuroPutOption(T, K, m);
+    EuropeanPut EuroPutOption(T, K, m);
     cout << "European Put Price = " << EuroPutOption.PriceByMC(Model, N) << endl;
 
     return 0;

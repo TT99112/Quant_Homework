@@ -6,6 +6,7 @@
 #define QUANT_HOMEWORK_PATHDEPENDENTOPTION01_H
 
 #include "BSModel01.h"
+#include <algorithm>
 
 class PathDepOption {
 public:
@@ -30,30 +31,26 @@ public:
     double Payoff(SamplePath& S);
 };
 
-class EuroCall : public PathDepOption {
+class EuropeanCall : public PathDepOption {
 public:
-    double K;
-
-    EuroCall(double T, double K, int m) {
+    double K; // Strike price
+    EuropeanCall(double T, double K, int m){
         this->T = T;
         this->K = K;
         this->m = m;
     }
-
-    double Payoff(SamplePath& S);
+    virtual double Payoff(SamplePath& S);
 };
 
-class EuroPut : public PathDepOption {
+class EuropeanPut : public PathDepOption {
 public:
-    double K;
-
-    EuroPut(double T, double K, int m) {
+    double K; // Strike price
+    EuropeanPut(double T, double K, int m) {
         this->T = T;
         this->K = K;
         this->m = m;
     }
-
-    double Payoff(SamplePath& S);
+    virtual double Payoff(SamplePath& S);
 };
 
 #endif //QUANT_HOMEWORK_PATHDEPENDENTOPTION03_H
