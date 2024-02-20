@@ -13,27 +13,43 @@ void Rescale(SamplePath& S, double x) {
 }
 
 double PathDepOption::PriceByMC(BSModel Model, long N, double epsilon) {
-    double H = 0.0, Hsq = 0.0, HepsPlus = 0.0, HepsMinus = 0.0;
-    SamplePath S(m), Soriginal(m);
+    double H = 0.0, Hsq = 0.0;
+    SamplePath S(m);
+    double HepsPlus = 0.0, HepsMinus = 0.0, Hvega = 0.0, Htheta = 0.0, Hrho = 0.0;
     for (long i = 0; i < N; i++) {
         Model.GenerateSamplePath(T, m, S);
-        Soriginal = S; // Store original S to use for rescaling back
-
-        // Payoff for original S
+        // Standard calculations for H and Hsq
         H = (i * H + Payoff(S)) / (i + 1.0);
         Hsq = (i * Hsq + pow(Payoff(S), 2.0)) / (i + 1.0);
 
-        // Payoff for S scaled up by epsilon
-        Rescale(S, 1.0 + epsilon);
+        // Calculations for Gamma
+        Rescale(S, 1.0 + epsilon); // Scaled up
         HepsPlus = (i * HepsPlus + Payoff(S)) / (i + 1.0);
-
-        // Reset S to original and then scale down by epsilon for payoff
-        S = Soriginal;
-        Rescale(S, 1.0 - epsilon);
+        Rescale(S, (1.0 - epsilon) / (1.0 + epsilon)); // Scaled down, then adjusted to original
         HepsMinus = (i * HepsMinus + Payoff(S)) / (i + 1.0);
+        Rescale(S, 1.0 / (1.0 - epsilon)); // Reset S to original for the next iteration
 
-        // Reset S to original for next iteration
-        S = Soriginal;
+        // For Vega: Increase sigma
+        double originalSigma = Model.sigma;
+        Model.sigma += epsilon;
+        Model.GenerateSamplePath(T, m, S);
+        Hvega = (i * Hvega + Payoff(S)) / (i + 1.0);
+        Model.sigma = originalSigma; // Reset sigma
+
+        // For Theta: Decrease T
+        double originalT = T;
+        T -= epsilon;
+        if (T < 0) T = epsilon; // Ensure T is not negative
+        Model.GenerateSamplePath(T, m, S);
+        Htheta = (i * Htheta + Payoff(S)) / (i + 1.0);
+        T = originalT; // Reset T
+
+        // For Rho: Increase r
+        double originalR = Model.r;
+        Model.r += epsilon;
+        Model.GenerateSamplePath(T, m, S);
+        Hrho = (i * Hrho + Payoff(S)) / (i + 1.0);
+        Model.r = originalR; // Reset r
     }
 
     double disc = exp(-Model.r * T);
@@ -41,8 +57,9 @@ double PathDepOption::PriceByMC(BSModel Model, long N, double epsilon) {
     PricingError = disc * sqrt(Hsq - H * H) / sqrt(N - 1.0);
     delta = disc * (HepsPlus - H) / (Model.S0 * epsilon);
     gamma = disc * (HepsPlus - 2*H + HepsMinus) / (Model.S0 * Model.S0 * epsilon * epsilon);
-
-    // Additions for Vega, Theta, Rho will follow a similar pattern, requiring modifications to BSModel and PathDepOption classes
+    vega = disc * (Hvega - H) / epsilon; // Sensitivity to sigma
+    theta = disc * (H - Htheta) / epsilon; // Sensitivity to T
+    rho = disc * (Hrho - H) / epsilon; // Sensitivity to r
 
     return Price;
 }

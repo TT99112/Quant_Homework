@@ -19,11 +19,15 @@ int main() {
     ArithAsianCall ArithAsianCallOption(T, K, m);
 
     long N = 30000;
-    double epsilon = 0.001;
+    double epsilon = 0.002;
 
     cout << "Asian Call Price = " << ArithAsianCallOption.PriceByMC(Model, N, epsilon) << endl;
     cout << "Delta = " << ArithAsianCallOption.delta << endl;
     cout << "Gamma = " << ArithAsianCallOption.gamma << endl;
+    cout << "Vega = " << ArithAsianCallOption.vega << endl;
+    cout << "Theta = " << ArithAsianCallOption.theta << endl;
+    cout << "Rho = " << ArithAsianCallOption.rho << endl;
+
     // Output for Vega, Theta, Rho would be similar
 
     return 0;
