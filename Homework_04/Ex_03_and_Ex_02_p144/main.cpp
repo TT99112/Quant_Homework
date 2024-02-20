@@ -8,8 +8,7 @@
 
 using namespace std;
 
-int main()
-{
+int main() {
     double S0 = 100.0, r = 0.03, sigma = 0.2;
     BSModel Model(S0, r, sigma);
 
@@ -20,7 +19,12 @@ int main()
     ArithAsianCall ArithAsianCallOption(T, K, m);
 
     long N = 30000;
-    cout << "Asian Call Price = " << ArithAsianCallOption.PriceByMC(Model, N, 0.001) << endl;
+    double epsilon = 0.001;
+
+    cout << "Asian Call Price = " << ArithAsianCallOption.PriceByMC(Model, N, epsilon) << endl;
+    cout << "Delta = " << ArithAsianCallOption.delta << endl;
+    cout << "Gamma = " << ArithAsianCallOption.gamma << endl;
+    // Output for Vega, Theta, Rho would be similar
 
     return 0;
 }

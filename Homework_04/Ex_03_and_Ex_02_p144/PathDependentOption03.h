@@ -7,23 +7,18 @@
 
 #include "BSModel01.h"
 
-
-class PathDepOption
-{
+class PathDepOption {
 public:
-    double T, Price, PricingError, delta;
+    double T, Price, PricingError, delta, gamma, vega, theta, rho;
     int m;
     virtual double Payoff(SamplePath& S) = 0;
     double PriceByMC(BSModel Model, long N, double epsilon);
 };
 
-class ArithAsianCall : public PathDepOption
-{
+class ArithAsianCall : public PathDepOption {
 public:
     double K;
     ArithAsianCall(double T, double K, int m) { this->T = T; this->K = K; this->m = m; }
     double Payoff(SamplePath& S);
 };
-
-
 #endif //QUANT_HOMEWORK_PATHDEPENDENTOPTION03_H
