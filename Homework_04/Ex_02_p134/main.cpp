@@ -2,6 +2,7 @@
 // Created by Tamour on 19/02/2024.
 //
 #include <iostream>
+#include <fstream>
 #include "PathDependentOption01.h"
 
 
@@ -48,6 +49,29 @@ int main() {
     cout << "\nHull-White sample path:" << endl;
     for (int i = 0; i <= m; ++i) {
         cout << "r[" << i << "] = " << samplePathHW[i] << endl;
+    }
+
+    ofstream outputFile("sample_paths.txt");
+    if (outputFile.is_open()) {
+        outputFile << "Black-Scholes sample path:\n";
+        for (int i = 0; i < m; ++i) {
+            outputFile << samplePathBS[i] << endl;
+        }
+
+        outputFile << "\nVasicek sample path:\n";
+        for (int i = 0; i <= m; ++i) {
+            outputFile << samplePathVasicek[i] << endl;
+        }
+
+        outputFile << "\nHull-White sample path:\n";
+        for (int i = 0; i <= m; ++i) {
+            outputFile << samplePathHW[i] << endl;
+        }
+
+        outputFile.close();
+        cout << "Sample paths saved to sample_paths.txt\n";
+    } else {
+        cout << "Unable to open file for writing.\n";
     }
 
     return 0;

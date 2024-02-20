@@ -1,36 +1,35 @@
 import matplotlib.pyplot as plt
 
-# Read variance data from files
-bs_variance_file = open("bs_variance.txt", "r")
-vasicek_variance_file = open("vasicek_variance.txt", "r")
-hw_variance_file = open("hw_variance.txt", "r")
+def read_sample_paths(filename):
+    with open(filename, 'r') as file:
+        lines = file.readlines()
+        sample_paths = {}
+        current_sample_path = None
+        for line in lines:
+            line = line.strip()
+            if line.endswith("sample path:"):
+                current_sample_path = line.split()[0]
+                sample_paths[current_sample_path] = []
+            else:
+                try:
+                    sample_paths[current_sample_path].append(float(line))
+                except ValueError:
+                    continue
+    return sample_paths
 
-bs_variance = float(bs_variance_file.readline().split(":")[1].strip())
-vasicek_variance = float(vasicek_variance_file.readline().split(":")[1].strip())
-hw_variance = float(hw_variance_file.readline().split(":")[1].strip())
+def plot_distribution(sample_path, title):
+    plt.figure(figsize=(8, 6))
+    plt.hist(sample_path, bins=30, edgecolor='black', alpha=0.7)
+    plt.title(title)
+    plt.xlabel('Value')
+    plt.ylabel('Frequency')
+    plt.grid(True)
+    plt.show()
 
-# Close files
-bs_variance_file.close()
-vasicek_variance_file.close()
-hw_variance_file.close()
+if __name__ == "__main__":
+    # Read sample paths from file
+    sample_paths = read_sample_paths("sample_paths.txt")
 
-# Plot histograms of distributions (you need to provide the data files for the distributions)
-# Example:
-# plt.hist(bs_distribution, bins=30, density=True, alpha=0.5, label='Black-Scholes')
-# plt.hist(vasicek_distribution, bins=30, density=True, alpha=0.5, label='Vasicek')
-# plt.hist(hw_distribution, bins=30, density=True, alpha=0.5, label='Hull-White')
-# plt.legend()
-# plt.xlabel('Value')
-# plt.ylabel('Frequency')
-# plt.title('Histogram of Distributions')
-# plt.show()
-
-# Visualize variances
-models = ['Black-Scholes', 'Vasicek', 'Hull-White']
-variances = [bs_variance, vasicek_variance, hw_variance]
-
-plt.bar(models, variances, color=['blue', 'green', 'red'])
-plt.xlabel('Model')
-plt.ylabel('Variance')
-plt.title('Variance of Models')
-plt.show()
+    # Plot distributions for each sample path
+    for key, value in sample_paths.items():
+        plot_distribution(value, f"{key} Distribution")
