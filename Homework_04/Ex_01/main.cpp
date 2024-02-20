@@ -18,7 +18,7 @@ int main() {
 
     ArithAsianCall ArithAsianCallOption(T, K, m);
 
-    long N = 30000;
+    long N = 300;
     cout << "Asian Call Price = " << ArithAsianCallOption.PriceByMC(Model, N) << endl;
 
     // European Call option

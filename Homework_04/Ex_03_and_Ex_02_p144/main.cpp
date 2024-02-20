@@ -22,7 +22,6 @@ int main() {
     double epsilon = 0.002;
 
     cout << "Asian Call Price = " << ArithAsianCallOption.PriceByMC(Model, N, epsilon) << endl;
-    cout << "Delta = " << ArithAsianCallOption.delta << endl;
     cout << "Gamma = " << ArithAsianCallOption.gamma << endl;
     cout << "Vega = " << ArithAsianCallOption.vega << endl;
     cout << "Theta = " << ArithAsianCallOption.theta << endl;
