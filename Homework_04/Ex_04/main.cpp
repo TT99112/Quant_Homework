@@ -5,6 +5,8 @@
 #include <iostream>
 #include "PathDepOption04.h"
 #include "GmtrAsianCall.h"
+#include "BarrierCallOption.h"
+#include "EurCall.h"
 
 using namespace std;
 
@@ -27,5 +29,12 @@ int main() {
     cout << "Price by direct MC = " << Option.Price << endl
          << "MC Error = " << Option.PricingError << endl;
 
+    double L = 110.0; // Example barrier level
+    BarrierCallOption BarrierOption(T, K, L, m);
+    EurCall EuroOption(T, K);
+
+    double barrierOptionPrice = BarrierOption.PriceByVarRedMC(Model, N, EuroOption);
+    cout << "Barrier call price = " << barrierOptionPrice << endl
+         << "Error = " << BarrierOption.PricingError << endl;
     return 0;
 }

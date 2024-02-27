@@ -2,7 +2,7 @@
 // Created by Tamour on 19/02/2024.
 //
 
-#ifndef QUANT_HOMEWORK_BSMODEL01_H
+#ifndef QUANT_HOMEWORK_BSMODEL02_H
 #define QUANT_HOMEWORK_BSMODEL01_H
 
 #include <vector>
@@ -26,4 +26,4 @@ public:
     void GenerateSamplePath(double T, int m, SamplePath& S);
 };
 
-#endif //QUANT_HOMEWORK_BSMODEL01_H
+#endif //QUANT_HOMEWORK_BSMODEL02_H
