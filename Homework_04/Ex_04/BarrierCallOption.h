@@ -7,15 +7,25 @@
 
 #include "PathDepOption04.h"
 #include <algorithm> // For max_element
+#include "EurCall.h"
 
 class BarrierCallOption : public PathDepOption {
 public:
-    double K; // Strike price
-    double L; // Barrier level
-    BarrierCallOption(double T_, double K_, double L_, int m_) : PathDepOption(), K(K_), L(L_) {
+    double K, L;
+    EurCall* eurCall; // Dynamically allocated to adjust for different market conditions
+    double eurCallPrice; // To store calculated European Call price internally
+
+    BarrierCallOption(double T_, double K_, double L_, int m_)
+            : PathDepOption(), K(K_), L(L_), eurCall(nullptr), eurCallPrice(0.0) {
         T = T_;
         m = m_;
     }
+
+    ~BarrierCallOption() {
+        if (eurCall) delete eurCall;
+    }
+
+    void CalculateEurCallPrice(const BSModel& Model);
 
     double Payoff(SamplePath& S) override;
 };
