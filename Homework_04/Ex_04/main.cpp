@@ -16,7 +16,7 @@ int main() {
     double T = 1.0 / 12.0, K = 100.0;
     int m = 30;
 
-    ArthmAsianCall Option(T, K, m);
+    ArithmAsianCall Option(T, K, m);
     GmtrAsianCall CVOption(T, K, m);
 
     long N = 30000;

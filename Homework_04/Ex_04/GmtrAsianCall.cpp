@@ -9,9 +9,8 @@
 
 double GmtrAsianCall::Payoff(SamplePath& S) {
     double Prod = 1.0;
-    for (int i = 0; i < m; i++) {
+    for (int i = 0; i < m; i++)
         Prod *= S[i];
-    }
     if (pow(Prod, 1.0 / m) < K) return 0.0;
     return pow(Prod, 1.0 / m) - K;
 }

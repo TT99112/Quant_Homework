@@ -8,8 +8,7 @@
 double PathDepOption::PriceByMC(BSModel Model, long N) {
     double H = 0.0, Hsq = 0.0;
     SamplePath S(m);
-    for (long i = 0; i < N; i++)
-    {
+    for (long i = 0; i < N; i++) {
         Model.GenerateSamplePath(T, m, S);
         H = (i * H + Payoff(S)) / (i + 1.0);
         Hsq = (i * Hsq + pow(Payoff(S), 2.0)) / (i + 1.0);
@@ -26,7 +25,7 @@ double PathDepOption::PriceByVarRedMC(BSModel Model, long N, PathDepOption& CVOp
     return Price;
 }
 
-double ArthmAsianCall::Payoff(SamplePath& S) {
+double ArithmAsianCall::Payoff(SamplePath& S) {
     double Ave = 0.0;
     for (int k = 0; k < m; k++)
         Ave = (k * Ave + S[k]) / (k + 1.0);

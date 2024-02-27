@@ -11,7 +11,7 @@
 class EurCall {
 public:
     double T, K;
-    EurCall(double T_, double K_) { T = T; K = K; }
+    EurCall(double T_, double K_) { T = T_; K = K_; }
     double dplus(double S0, double sigma, double r);
     double dminus(double S0, double sigma, double r);
     double PriceByBSFormula(double S0, double sigma, double r);
