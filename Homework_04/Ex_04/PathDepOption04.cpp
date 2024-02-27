@@ -26,7 +26,7 @@ double PathDepOption::PriceByVarRedMC(BSModel Model, long N, PathDepOption& CVOp
     return Price;
 }
 
-double ArithmeticAsianCall::Payoff(SamplePath& S) {
+double ArthmAsianCall::Payoff(SamplePath& S) {
     double Ave = 0.0;
     for (int k = 0; k < m; k++)
         Ave = (k * Ave + S[k]) / (k + 1.0);

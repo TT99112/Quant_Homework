@@ -2,7 +2,7 @@
 // Created by Tamour on 25/02/2024.
 //
 
-#ifndef QUANT_HOMEWORK_PATHDEPOPTION05_H
+#ifndef QUANT_HOMEWORK_PATHDEPOPTION04_H
 #define QUANT_HOMEWORK_PATHDEPOPTION04_H
 
 #include "BSModel01.h"
@@ -26,10 +26,10 @@ public:
     double Payoff(SamplePath& S) { return Ptr1->Payoff(S) - Ptr2->Payoff(S); }
 };
 
-class ArithmeticAsianCall : public PathDepOption {
+class ArthmAsianCall : public PathDepOption {
 public:
     double K;
-    ArithmeticAsianCall(double T_, double K_, int m_) { T = T_; K = K_; m = m_; }
+    ArthmAsianCall(double T_, double K_, int m_) { T = T_; K = K_; m = m_; }
     double Payoff(SamplePath& S);
 };
 

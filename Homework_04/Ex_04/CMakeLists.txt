@@ -1,1 +1,1 @@
-add_executable(Hwk_04_Ex_04 main.cpp PathDepOption04.cpp PathDepOption04.h GmtrAsianCall.cpp GmtrAsianCall.h EurCall.cpp EurCall.h BSModel01.cpp BSModel01.h BarrierCallOption.cpp BarrierCallOption.h)
+add_executable(Hwk_04_Ex_04 main.cpp PathDepOption04.cpp PathDepOption04.h GmtrAsianCall.cpp GmtrAsianCall.h EurCall.cpp EurCall.h BSModel01.cpp BSModel01.h)
